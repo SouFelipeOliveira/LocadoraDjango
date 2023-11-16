@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <form action="{% url 'url_filmes' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Novo Filme</legend>
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-thumbs-up">
+                    Cadastrar
+                </span>
+            </button>
+        </fieldset>
+    </form>
+</div>
+<br>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Lista de Filmes
+            </h2>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-hover">
+                <tr>
+                    <th>Código</th>
+                    <th>Titulo</th>
+                    <th>Genero</th>
+                    <th>Descrição</th>
+                    <th>Data de Lançamento</th>
+                    <th>Ator Principal</th>
+                    <th>Opções</th>
+                    <th>Excluir</th>
+                </tr>
+                {% for filme in filmes %}
+                 <tr>
+                    <td class="col-md-2">{{ filme.id}} </td>
+                    <td class="col-md-2"> {{filme.titulo}} </td>
+                    <td class="col-md-2"> {{filme.genero}} </td>
+                    <td class="col-md-2"> {{filme.descricao}} </td>
+                    <td class="col-md-2">{{filme.data_lancamento}}</td>
+                    <td class="col-md-2">{{filme.ator}}</td>
+
+                    <td class="col-md-3">
+                        <a class="btn btn-warning" href="" role="button">Editar</a>
+                        
+                    </td>
+                    <td class="col-md-3">
+                        <a class="btn btn-danger" href="" role="button">Excluir</a>
+                    </td>
+                 </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

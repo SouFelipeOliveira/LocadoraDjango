@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <form action="{% url 'url_locacoes' %}" method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Nova Locação</legend>
+            {{form.as_p}}
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-thumbs-up">
+                    Cadastrar
+                </span>
+            </button>
+        </fieldset>
+    </form>
+</div>
+<br>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Locações
+            </h2>
+        </div>
+    </div>
+    <br>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <tr>
+                <th>Código</th>
+                <th>Cliente</th>
+                <th>Data do Empréstimo</th>
+                <th>Status</th>
+                <th>Data de Devolução</th>
+                <th>Valor Pago</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+            {% for locado in locacoes %}
+             <tr>
+                <td class="col-md-2">{{locado.id}}</td>
+                <td class="col-md-2">{{locado.cliente}}</td>
+                <td class="col-md-2">{{locado.data_do_emprestimo}}</td>
+                <td class="col-md-2">{{locado.status}}</td>
+                <td class="col-md-2">{{locado.data_de_devolucao}}</td>
+                <td class="col-md-2">{{locado.valor_pago}}</td>
+
+                <td class="col-md-3">
+                    <a class="btn btn-warning" href="" role="button">Editar</a>
+                </td>
+                <td class="col-md-3">
+                    <a class="btn btn-danger" href="" role="button">Excluir</a>
+                </td>
+             </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}
