@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <form action="{% url 'url_dvd' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Novo DvD</legend>
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-thumbs-up">
+                    Cadastrar
+                </span>
+            </button>
+        </fieldset>
+    </form>
+</div>
+<br>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Lista de DvDs
+            </h2>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-hover">
+                <tr>
+                    <th>Filme</th>
+                    <th>Estado</th>
+                    <th>Disponibilidade</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+                {% for dvd in dvds %}
+                <tr>
+                    <td class="col-md-2"> {{dvd.filme}} </td>
+                    <td class="col-md-2"> {{dvd.estado}} </td>
+                    <td class="col-md-2"> {{dvd.disponibilidade}} </td>
+                    <td class="col-md-3">
+                        <a class="btn btn-warning" href="{% url 'url_atualizaDVD' dvd.id %}"
+                            role="button">Editar</a>
+                    </td>
+                    <td class="col-md-3">
+                        <a class="btn btn-danger" href="{% url 'url_removerDVD' dvd.id %}" role="button">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

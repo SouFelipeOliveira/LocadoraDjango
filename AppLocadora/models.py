@@ -21,12 +21,12 @@ class Genero(models.Model):
 class Filme(models.Model):
     titulo = models.CharField(max_length=100)
     genero = models.ManyToManyField(Genero)
-    descricao = models.TextField(blank=True, null=True)
+    descricao = models.TextField(max_length=300, blank=True, null=True)
     data_lancamento = models.DateField()
     ator = models.ManyToManyField(Ator)
 
     def __str__(self):
-        return self.descricao[0:10]
+        return self.titulo
     
 class DvD(models.Model):
     NOVO =  'Novo'
@@ -45,26 +45,26 @@ class DvD(models.Model):
 
     filme = models.ForeignKey(Filme, on_delete=models.CASCADE, blank=True, null=True)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES)
-    disponiblidade = models.CharField(max_length=20, choices=DISPONIBILIDADE_CHOICES)
+    disponibilidade = models.CharField(max_length=20, choices=DISPONIBILIDADE_CHOICES)
 
 
     def __str__(self) -> str:
-        return self.filme.titulo
+        return str(self.filme)
     
 class Cliente(models.Model):
-    ATIVO = 'ATIVO'
-    INATIVO = 'INATIVO'
+    ATIVO = 'Ativo'
+    INATIVO = 'Inativo'
     STATUS_CHOICES = [
         (ATIVO, 'Ativo'),
         (INATIVO, 'Inativo'),
     ]
 
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=100 )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
-    rua = models.CharField(max_length=100)
-    numero = models.BigIntegerField()
+    rua = models.CharField(max_length=100 )
+    numero = models.BigIntegerField(blank=True, null=True)
     bairro = models.CharField(max_length=100)
-    numero_telefone = models.BigIntegerField(null=True)
+    numero_de_telefone = models.BigIntegerField(blank=True, null=True)
     
     def __str__(self) -> str:
         return self.nome

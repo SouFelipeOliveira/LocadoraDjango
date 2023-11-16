@@ -37,26 +37,37 @@
                     <th>Descrição</th>
                     <th>Data de Lançamento</th>
                     <th>Ator Principal</th>
-                    <th>Opções</th>
+                    <th>Editar</th>
                     <th>Excluir</th>
                 </tr>
                 {% for filme in filmes %}
-                 <tr>
+                <tr>
                     <td class="col-md-2">{{ filme.id}} </td>
                     <td class="col-md-2"> {{filme.titulo}} </td>
-                    <td class="col-md-2"> {{filme.genero}} </td>
+                    <td class="col-md-2">
+                        {% for genero in filme.genero.all %}
+                        {{ genero.genero }}
+                        {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    </td>
                     <td class="col-md-2"> {{filme.descricao}} </td>
                     <td class="col-md-2">{{filme.data_lancamento}}</td>
-                    <td class="col-md-2">{{filme.ator}}</td>
+                    <td class="col-md-2">
+                        {% for ator in filme.ator.all %}
+                          {{ ator.nome }}
+                          {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
 
                     <td class="col-md-3">
-                        <a class="btn btn-warning" href="" role="button">Editar</a>
-                        
+                        <a class="btn btn-warning" href="{% url 'url_atualizaFilme' filme.id %}"
+                            role="button">Editar</a>
                     </td>
                     <td class="col-md-3">
-                        <a class="btn btn-danger" href="" role="button">Excluir</a>
+                        <a class="btn btn-danger" href="{% url 'url_removerFilme' filme.id %}" role="button">Excluir</a>
                     </td>
-                 </tr>
+                </tr>
                 {% endfor %}
             </table>
         </div>

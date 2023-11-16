@@ -32,18 +32,17 @@
     <div class="panel-body">
         <table class="table table-hover">
             <tr>
-                <th>Código</th>
                 <th>Cliente</th>
                 <th>Data do Empréstimo</th>
                 <th>Status</th>
                 <th>Data de Devolução</th>
                 <th>Valor Pago</th>
+                <th>Devolver</th>
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
             {% for locado in locacoes %}
              <tr>
-                <td class="col-md-2">{{locado.id}}</td>
                 <td class="col-md-2">{{locado.cliente}}</td>
                 <td class="col-md-2">{{locado.data_do_emprestimo}}</td>
                 <td class="col-md-2">{{locado.status}}</td>
@@ -51,10 +50,14 @@
                 <td class="col-md-2">{{locado.valor_pago}}</td>
 
                 <td class="col-md-3">
-                    <a class="btn btn-warning" href="" role="button">Editar</a>
+                    <a href="" class="btn btn-success" role="button">Devolver</a>
+                </td>
+
+                <td class="col-md-3">
+                    <a class="btn btn-warning" href="{% url 'url_atualizaLocacao' locado.id %}" role="button">Editar</a>
                 </td>
                 <td class="col-md-3">
-                    <a class="btn btn-danger" href="" role="button">Excluir</a>
+                    <a class="btn btn-danger" href="{% url 'url_removerLocacao' locado.id %}" role="button">Excluir</a>
                 </td>
              </tr>
             {% endfor %}

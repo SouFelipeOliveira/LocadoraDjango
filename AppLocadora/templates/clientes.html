@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <form action="{% url 'url_clientes' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Novo Cliente</legend>
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-thumbs-up">
+                    Cadastrar
+                </span>
+            </button>
+        </fieldset>
+    </form>
+</div>
+<br>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Lista de Clientes
+            </h2>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-hover">
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Status</th>
+                    <th>Rua</th>
+                    <th>Número</th>
+                    <th>Bairro</th>
+                    <th>Numero de Telefone</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+                {% for cliente in clientes %}
+                <tr>
+                    <td class="col-md-2">{{ cliente.id}} </td>
+                    <td class="col-md-2"> {{cliente.nome}} </td>
+                    <td class="col-md-2">{{cliente.status}} </td>
+                    <td class="col-md-2"> {{cliente.rua}} </td>
+                    <td class="col-md-2">{{cliente.numero}}</td>
+                    <td class="col-md-2">{{cliente.bairro}} </td>
+                    <td class="col-md-2">{{cliente.numero_de_telefone}} </td>
+
+                    <td class="col-md-3">
+                        <a class="btn btn-warning" href="{% url 'url_atualizaCliente' cliente.id %}"
+                            role="button">Editar</a>
+                    </td>
+                    <td class="col-md-3">
+                        <a class="btn btn-danger" href="{% url 'url_removerCliente' cliente.id %}" role="button">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

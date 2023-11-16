@@ -6,8 +6,8 @@ def home(request):
     return render(request, 'home.html')
 
 def  atores(request):
-    data = {}
-    data['atores'] = Ator.objects.all()
+    ator= Ator.objects.all()
+    form = AtorForm()
 
     if request.method == 'POST':
         form = AtorForm(request.POST)
@@ -15,8 +15,9 @@ def  atores(request):
             form.save()
             return redirect('url_atores') 
         else:
-            data['form'] = AtorForm()
-        return render(request, 'atores.html', data)
+            form = AtorForm()
+    context = {'ator': ator, 'form': form}
+    return render(request, 'atores.html', context)
 
 def filmes(request):
     filmes = Filme.objects.all()
@@ -33,25 +34,26 @@ def filmes(request):
     return render(request, 'filmes.html', context)
 
 
-def dvds(request):
-    data = {}
-    data['dvds'] = DvD.objects.all()
-
+def dvd(request):
+    dvds = DvD.objects.all()
+    form = DvDForm()
     if request.method == 'POST':
         form = DvDForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect('url_dvds')
+            return redirect('url_dvd')
         else:
-            data['dvds'] = DvDForm()
-        return render(request, 'dvds.html', data)
+            dvds = DvDForm()
+
+    context = {'dvds': dvds, 'form': form}
+    return render(request, 'dvd.html', context)
 
 
 def clientes(request):
-    data = {}
-    data['clientes'] = Cliente.objects.all()
-
+    clientes = Cliente.objects.all()
+    form = ClienteForm()
+    
     if request.method == 'POST':
         form = ClienteForm(request.POST)
 
@@ -59,14 +61,14 @@ def clientes(request):
             form.save()
             return redirect('url_clientes')
         else:
-            data['clientes'] = ClienteForm()
-        return render(request, 'clientes.html', data)
+            form = ClienteForm()
+    context = {'clientes': clientes, 'form': form} 
+    return render(request, 'clientes.html', context)
 
 def locacoes(request):
-    locacoes = {}
     locacoes = Locacao.objects.all()
-
     form = LocacaoForm()
+
     if request.method == 'POST':
         form = LocacaoForm(request.POST)
 
@@ -75,12 +77,75 @@ def locacoes(request):
             return redirect('url_locacoes')
         else:
             locacoes = LocacaoForm()
-    context = {'form': form, 'locacoes': locacoes}
+
+    context = {'locacoes': locacoes, 'form': form}
     return render(request, 'locacoes.html', context)
 
-#atualizaões]
+#atualizaões
 
-def atualizar_filmes(request):
-    data = {}
-    # filmes = Filme.objects.all(pk=pk)
-        
+def atualiza_filme(request, pk):
+    filme = Filme.objects.get(id=pk)
+    form = FilmeFom(request.POST or None, instance=filme)
+
+    if form.is_valid():
+        form.save()
+        return redirect('url_filmes')
+    
+    context = {'filme': filme, 'form': form}
+    return render(request, 'atualiza_filme.html', context)
+
+def atualiza_dvd(request, pk):
+    dvd = DvD.objects.get(pk=pk)
+    form = DvDForm(request.POST or None, instance=dvd)
+
+    if form.is_valid():
+        form.save()
+        return redirect('url_dvd')
+    
+    context = {'dvd': dvd, 'form': form}
+    return render(request, 'atualiza_filme.html', context)
+
+def atualiza_cliente(request, pk):
+    cliente = Cliente.objects.get(pk=pk)
+    form = ClienteForm(request.POST or None, instance=cliente)
+
+    if form.is_valid():
+        form.save()
+        return redirect('url_clientes')
+    
+    context = {'cliente': cliente, 'form': form}
+    return render(request, 'atualiza_cliente.html', context)
+
+def atualiza_locacao(request, pk):
+    locacao = Locacao.objects.get(pk=pk)
+    form = LocacaoForm(request.POST or None, instance=locacao)
+
+    if form.is_valid():
+        form.save()
+        return redirect('url_locacoes')
+    
+    context = {'locacao': locacao, 'form': form}
+    return render(request, 'atualiza_locacao.html', context)
+
+
+#Delete
+
+def remover_filme(request, pk):
+    filme = Filme.objects.get(pk=pk)
+    filme.delete()
+    return redirect('url_filmes')
+
+def remover_dvd(request, pk):
+    dvd = DvD.objects.get(pk=pk)
+    dvd.delete()
+    return redirect('url_dvd')
+
+def remover_cliente(request, pk):
+    cliente = Cliente.objects.get(pk=pk)
+    cliente.delete()
+    return redirect('url_clientes')
+
+def remover_locacao(request, pk):
+    locacao = Locacao.objects.get(pk=pk)
+    locacao.delete()
+    return redirect('url_locacoes')
